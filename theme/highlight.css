@@ -81,3 +81,8 @@
   color: #b31d28;
   background-color: #ffeef0;
 }
+
+/** hide cursor when edittable is not focused */
+.ace_hidden-cursors {
+  opacity: 0;
+}
