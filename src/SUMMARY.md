@@ -5,3 +5,4 @@
     - [Lists](./lists.md)
     - [Tables](./tables.md)
 - [Pipelines](./pipelines.md)
+- [Commands (Functions)](./commands.md)
