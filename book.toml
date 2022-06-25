@@ -1,0 +1,6 @@
+[book]
+authors = ["Tharindu Sathischandra"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Nushell By Example"
