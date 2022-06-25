@@ -283,6 +283,19 @@
         <script src="{{ path_to_root }}searcher.js" type="text/javascript" charset="utf-8"></script>
         {{/if}}
 
+        <!-- nushell -->
+        <!-- TODO: Update the nushell wasm to a lastest version -->
+        <script type="module">
+            import init, { run_nu } from 'https://unpkg.com/@tharindusathis/nushell@0.44.4-a2/nushell.js';
+
+            async function run_nushell_wasm(code) {
+                await init();
+                const output = await run_nu(code);
+                return output;
+            }
+            window.run_nushell_wasm = run_nushell_wasm;
+        </script>
+
         <script src="{{ path_to_root }}clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ path_to_root }}highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ path_to_root }}book.js" type="text/javascript" charset="utf-8"></script>

@@ -11,6 +11,12 @@ function playground_text(playground) {
         let editor = window.ace.edit(code_block);
         return editor.getValue();
     } else {
+        // remove span nodes having "boring" class
+        code_block = code_block.cloneNode(true);
+        let spans = code_block.querySelectorAll("span.boring");
+        for (let i = 0; i < spans.length; i++) {
+            spans[i].remove();
+        }
         return code_block.textContent;
     }
 }
@@ -97,6 +103,49 @@ function playground_text(playground) {
         }
     }
 
+    function run_nushell_code(code_block) {
+        var result_block = code_block.querySelector(".result");
+        if (!result_block) {
+            result_block = document.createElement('code');
+            result_block.className = 'result hljs language-bash';
+
+            code_block.append(result_block);
+        }
+
+        let text = playground_text(code_block);
+        console.log("text", text)
+        result_block.innerText = "Running...";
+
+        run_nushell_wasm(text)
+        .then(response => JSON.parse(response))
+        .then(
+            output => {
+                console.log(typeof output);
+                console.log("output", output);
+
+                let result = '';
+
+                if (output['Ok']) {
+                    result = output['Ok'];
+                }else {
+                    throw new Error("Unknown error");
+                }
+
+                
+
+                if (result.trim() === '') {
+                    result_block.innerText = "No output";
+                    result_block.classList.add("result-no-output");
+                } else {
+                    result_block.innerText = result;
+                    result_block.classList.remove("result-no-output");
+                }
+            }
+        )
+        .catch(error => result_block.innerText = "Error: " + error.message);
+    }
+
+    /** not using reference only */
     function run_rust_code(code_block) {
         var result_block = code_block.querySelector(".result");
         if (!result_block) {
@@ -160,11 +209,13 @@ function playground_text(playground) {
         .filter(function (node) {return !node.parentElement.classList.contains("header"); });
 
     if (window.ace) {
-        // language-rust class needs to be removed for editable
+        // TODO: add highlightjs support for nushell language
+        // (currently not working)
+        // language-nushell class needs to be removed for editable
         // blocks or highlightjs will capture events
-        code_nodes
-            .filter(function (node) {return node.classList.contains("editable"); })
-            .forEach(function (block) { block.classList.remove('language-rust'); });
+        // code_nodes
+        //     .filter(function (node) {return node.classList.contains("editable"); })
+        //     .forEach(function (block) { block.classList.remove('language-nushell'); });
 
         Array
         code_nodes
@@ -178,7 +229,7 @@ function playground_text(playground) {
     // even if highlighting doesn't apply
     code_nodes.forEach(function (block) { block.classList.add('hljs'); });
 
-    Array.from(document.querySelectorAll("code.language-rust")).forEach(function (block) {
+    Array.from(document.querySelectorAll("code.language-nushell")).forEach(function (block) {
 
         var lines = Array.from(block.querySelectorAll('.boring'));
         // If no lines were hidden, return
@@ -212,27 +263,20 @@ function playground_text(playground) {
         });
     });
 
-    if (window.playground_copyable) {
-        Array.from(document.querySelectorAll('pre code')).forEach(function (block) {
-            var pre_block = block.parentNode;
-            if (!pre_block.classList.contains('playground')) {
-                var buttons = pre_block.querySelector(".buttons");
-                if (!buttons) {
-                    buttons = document.createElement('div');
-                    buttons.className = 'buttons';
-                    pre_block.insertBefore(buttons, pre_block.firstChild);
-                }
-
-                var clipButton = document.createElement('button');
-                clipButton.className = 'fa fa-copy clip-button';
-                clipButton.title = 'Copy to clipboard';
-                clipButton.setAttribute('aria-label', clipButton.title);
-                clipButton.innerHTML = '<i class=\"tooltiptext\"></i>';
-
-                buttons.insertBefore(clipButton, buttons.firstChild);
-            }
-        });
-    }
+    /**
+     * Add playground wrapper to all nushell codeblocks 
+     * except noplayground or no_run codeblocks
+     * 
+     */
+    Array.from(document.querySelectorAll(".language-nushell:not(.noplayground):not(.no_run)")).forEach((element) => {
+        let parent = element.parentNode;
+        let wrapper = document.createElement('pre');
+        wrapper.className = 'playground';
+        // set the wrapper as child (instead of the element)
+        parent.replaceChild(wrapper, element);
+        // set element as child of wrapper
+        wrapper.appendChild(element);
+    });
 
     // Process playground code blocks
     Array.from(document.querySelectorAll(".playground")).forEach(function (pre_block) {
@@ -252,7 +296,7 @@ function playground_text(playground) {
 
         buttons.insertBefore(runCodeButton, buttons.firstChild);
         runCodeButton.addEventListener('click', function (e) {
-            run_rust_code(pre_block);
+            run_nushell_code(pre_block);
         });
 
         if (window.playground_copyable) {
@@ -281,6 +325,28 @@ function playground_text(playground) {
             });
         }
     });
+
+    if (window.playground_copyable) {
+        Array.from(document.querySelectorAll('pre code')).forEach(function (block) {
+            var pre_block = block.parentNode;
+            if (!pre_block.classList.contains('playground')) {
+                var buttons = pre_block.querySelector(".buttons");
+                if (!buttons) {
+                    buttons = document.createElement('div');
+                    buttons.className = 'buttons';
+                    pre_block.insertBefore(buttons, pre_block.firstChild);
+                }
+
+                var clipButton = document.createElement('button');
+                clipButton.className = 'fa fa-copy clip-button';
+                clipButton.title = 'Copy to clipboard';
+                clipButton.setAttribute('aria-label', clipButton.title);
+                clipButton.innerHTML = '<i class=\"tooltiptext\"></i>';
+
+                buttons.insertBefore(clipButton, buttons.firstChild);
+            }
+        });
+    }   
 })();
 
 (function themes() {
