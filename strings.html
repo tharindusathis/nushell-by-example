@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="data_types.html"><strong aria-hidden="true">1.</strong> Data Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="strings.html" class="active"><strong aria-hidden="true">1.1.</strong> Strings</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="data_types.html"><strong aria-hidden="true">1.</strong> Data Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="strings.html" class="active"><strong aria-hidden="true">1.1.</strong> Strings</a></li><li class="chapter-item expanded "><a href="lists.html"><strong aria-hidden="true">1.2.</strong> Lists</a></li><li class="chapter-item expanded "><a href="tables.html"><strong aria-hidden="true">1.3.</strong> Tables</a></li></ol></li><li class="chapter-item expanded "><a href="pipelines.html"><strong aria-hidden="true">2.</strong> Pipelines</a></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">3.</strong> Commands (Functions)</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -187,6 +187,97 @@ $&quot;greetings, ($name)&quot;
 </blockquote>
 <pre><code class="language-nushell editable">$&quot;2 + 2 is (2 + 2)&quot; 
 </code></pre>
+<pre><code class="language-nushell editable">echo $&quot;6 x 7 = (6 * 7)&quot;
+</code></pre>
+<h2 id="str-commands"><a class="header" href="#str-commands"><code>str</code> commands</a></h2>
+<h3 id="change-string-case"><a class="header" href="#change-string-case">Change string case</a></h3>
+<ul>
+<li><a href="#str-camel-case">camel-case</a></li>
+<li><a href="#str-capitalize">capitalize</a></li>
+<li><a href="#str-downcase">downcase</a></li>
+<li><a href="#str-kebab-case">kebab-case</a></li>
+<li><a href="#str-pascal-caes">pascal-caes</a></li>
+<li><a href="#str-screaming-snake-case">screaming-snake-case</a></li>
+<li><a href="#str-snake-case">snake-case</a></li>
+<li><a href="#str-title-case">title-case</a></li>
+<li><a href="#str-upcase">upcase</a></li>
+</ul>
+<h4 id="str-camel-case"><a class="header" href="#str-camel-case"><code>str camel-case</code></a></h4>
+<blockquote>
+<p>convert a string to <strong>camelCase</strong></p>
+</blockquote>
+<pre><code class="language-nushell">'NuShell' | str camel-case      
+</code></pre>
+<h4 id="str-capitalize"><a class="header" href="#str-capitalize"><code>str capitalize</code></a></h4>
+<pre><code class="language-nushell">'good day' | str capitalize  
+</code></pre>
+<h4 id="str-downcase"><a class="header" href="#str-downcase"><code>str downcase</code></a></h4>
+<blockquote>
+<p>convert a string to <strong>downcase</strong></p>
+</blockquote>
+<pre><code class="language-nushell">'TESTa' | str downcase
+</code></pre>
+<h4 id="str-kebab-case"><a class="header" href="#str-kebab-case"><code>str kebab-case</code></a></h4>
+<pre><code class="language-nushell">'NuShell' | str kebab-case
+</code></pre>
+<h4 id="str-pascal-caes"><a class="header" href="#str-pascal-caes"><code>str pascal-caes</code></a></h4>
+<pre><code class="language-nushell">'nu-shell' | str pascal-case
+</code></pre>
+<h4 id="str-screaming-snake-case"><a class="header" href="#str-screaming-snake-case"><code>str screaming-snake-case</code></a></h4>
+<pre><code class="language-nushell">&quot;NuShell&quot; | str screaming-snake-case
+</code></pre>
+<h4 id="str-snake-case"><a class="header" href="#str-snake-case"><code>str snake-case</code></a></h4>
+<pre><code class="language-nushell">&quot;NuShell&quot; | str snake-case
+</code></pre>
+<h4 id="str-title-case"><a class="header" href="#str-title-case"><code>str title-case</code></a></h4>
+<pre><code class="language-nushell">&quot;nu-shell&quot; | str title-case
+</code></pre>
+<h4 id="str-upcase"><a class="header" href="#str-upcase"><code>str upcase</code></a></h4>
+<pre><code class="language-nushell">'nu' | str upcase
+</code></pre>
+<h3 id="other-commands"><a class="header" href="#other-commands">Other commands</a></h3>
+<h4 id="str-collect-seperator"><a class="header" href="#str-collect-seperator"><code>str collect (seperator)</code></a></h4>
+<blockquote>
+<p>Concatenate multiple strings into a single string, with an optional separator between each</p>
+</blockquote>
+<pre><code class="language-nushell">['nu', 'shell'] | str collect
+</code></pre>
+<p>Create a string from input with a separator</p>
+<pre><code class="language-nushell">['nu', 'shell', 'is', 'great'] | str collect '-'
+</code></pre>
+<h4 id="str-contains"><a class="header" href="#str-contains"><code>str contains</code></a></h4>
+<blockquote>
+<p>Checks if string contains pattern</p>
+</blockquote>
+<pre><code class="language-shell">'my_library.rb' | str contains '.rb'
+</code></pre>
+<p>not contain</p>
+<pre><code class="language-shell">'my_library.rb' | str contains --not '.rb'
+</code></pre>
+<p>case insensitive</p>
+<pre><code class="language-shell">'my_library.rb' | str contains -i '.RB'
+</code></pre>
+<p>in a table</p>
+<pre><code class="language-shell">[[ColA ColB]; [test 100]] | str contains 'e' ColA
+</code></pre>
+<p>in a list </p>
+<pre><code class="language-shell">[one two three] | str contains o
+</code></pre>
+<h4 id="str-ends-with"><a class="header" href="#str-ends-with"><code>str ends-with</code></a></h4>
+<p>...</p>
+<h2 id="to-string"><a class="header" href="#to-string">To String</a></h2>
+<p>using <code>into string</code></p>
+<pre><code class="language-nushell">123 | into string
+</code></pre>
+<p>string interpolation</p>
+<pre><code class="language-nushell">$'(123)
+</code></pre>
+<p><code>build-string</code></p>
+<pre><code class="language-nushell">build-string (123)
+</code></pre>
+<h2 id="coloring-strings"><a class="header" href="#coloring-strings">Coloring Strings</a></h2>
+<pre><code class="language-nushell">$'(ansi purple_bold)This text is a bold purple!(ansi reset)'
+</code></pre>
 
                     </main>
 
@@ -196,6 +287,9 @@ $&quot;greetings, ($name)&quot;
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next" href="lists.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -207,6 +301,9 @@ $&quot;greetings, ($name)&quot;
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next" href="lists.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>

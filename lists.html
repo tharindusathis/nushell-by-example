@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Nushell By Example</title>
-        <meta name="robots" content="noindex" />
+        <title>Lists - Nushell By Example</title>
 
 
         <!-- Custom HTML head -->
@@ -82,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="data_types.html"><strong aria-hidden="true">1.</strong> Data Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="strings.html"><strong aria-hidden="true">1.1.</strong> Strings</a></li><li class="chapter-item expanded "><a href="lists.html"><strong aria-hidden="true">1.2.</strong> Lists</a></li><li class="chapter-item expanded "><a href="tables.html"><strong aria-hidden="true">1.3.</strong> Tables</a></li></ol></li><li class="chapter-item expanded "><a href="pipelines.html"><strong aria-hidden="true">2.</strong> Pipelines</a></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">3.</strong> Commands (Functions)</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="data_types.html"><strong aria-hidden="true">1.</strong> Data Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="strings.html"><strong aria-hidden="true">1.1.</strong> Strings</a></li><li class="chapter-item expanded "><a href="lists.html" class="active"><strong aria-hidden="true">1.2.</strong> Lists</a></li><li class="chapter-item expanded "><a href="tables.html"><strong aria-hidden="true">1.3.</strong> Tables</a></li></ol></li><li class="chapter-item expanded "><a href="pipelines.html"><strong aria-hidden="true">2.</strong> Pipelines</a></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">3.</strong> Commands (Functions)</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -143,163 +142,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="data-types"><a class="header" href="#data-types">Data Types</a></h1>
-<h2 id="simple-data-types"><a class="header" href="#simple-data-types">Simple Data Types</a></h2>
-<ul>
-<li>Integers</li>
-<li>Decimals</li>
-<li><a href="./strings.html">Strings</a></li>
-<li>Lines</li>
-<li>Paths</li>
-<li>Globs</li>
-<li>Booleans</li>
-<li>Dates</li>
-<li>Durations</li>
-<li>Files Sizes</li>
-</ul>
-<h2 id="structured-data-types"><a class="header" href="#structured-data-types">Structured Data Types</a></h2>
-<ul>
-<li>Records</li>
-<li><a href="./lists.html">Lists</a></li>
-<li><a href="./tables.html">Tables</a></li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="strings"><a class="header" href="#strings">Strings</a></h1>
-<p>When having no spaces</p>
-<pre><code class="language-nushell noplayground">hello 
-'hello'
-&quot;hello&quot;
-</code></pre>
-<p>When having spaces</p>
-<pre><code class="language-nushell noplayground">'hello world'
-&quot;hello world&quot;
-</code></pre>
-<p>When having quotes</p>
-<pre><code class="language-nushell noplayground">'say &quot;hello world&quot;'
-&quot;say 'hello world'&quot;
-&quot;say \&quot;hello world\&quot;&quot;
-</code></pre>
-<p>Escape characters</p>
-<pre><code>\&quot;      - double-quote character
-\'      - single-quote character
-\\      - backslash
-\/      - forward slash
-\b      - backspace
-\f      - formfeed
-\r      - carriage return
-\n      - newline (line feed)
-\t      - tab
-\uXXXX  - a unicode character 
-</code></pre>
-<blockquote>
-<p>Single-quoted strings don't do anything to the text they're given</p>
-</blockquote>
-<pre><code class="language-nushell noplayground">&quot;Hi\tThere&quot;    # output: Hi   There
-'Hi\tThere'    # output: Hi\tThere
-</code></pre>
-<h3 id="string-interpolation"><a class="header" href="#string-interpolation">String Interpolation</a></h3>
-<blockquote>
-<p>String interpolation uses <code>$&quot; &quot;</code> and <code>$' '</code> as ways to wrap interpolated text.</p>
-</blockquote>
-<pre><code class="language-nushell editable">let name = &quot;Alice&quot;
-$&quot;greetings, ($name)&quot;
-</code></pre>
-<blockquote>
-<p>By wrapping expressions in (), we can run them to completion and use the results to help build the string.</p>
-</blockquote>
-<pre><code class="language-nushell editable">$&quot;2 + 2 is (2 + 2)&quot; 
-</code></pre>
-<pre><code class="language-nushell editable">echo $&quot;6 x 7 = (6 * 7)&quot;
-</code></pre>
-<h2 id="str-commands"><a class="header" href="#str-commands"><code>str</code> commands</a></h2>
-<h3 id="change-string-case"><a class="header" href="#change-string-case">Change string case</a></h3>
-<ul>
-<li><a href="strings.html#str-camel-case">camel-case</a></li>
-<li><a href="strings.html#str-capitalize">capitalize</a></li>
-<li><a href="strings.html#str-downcase">downcase</a></li>
-<li><a href="strings.html#str-kebab-case">kebab-case</a></li>
-<li><a href="strings.html#str-pascal-caes">pascal-caes</a></li>
-<li><a href="strings.html#str-screaming-snake-case">screaming-snake-case</a></li>
-<li><a href="strings.html#str-snake-case">snake-case</a></li>
-<li><a href="strings.html#str-title-case">title-case</a></li>
-<li><a href="strings.html#str-upcase">upcase</a></li>
-</ul>
-<h4 id="str-camel-case"><a class="header" href="#str-camel-case"><code>str camel-case</code></a></h4>
-<blockquote>
-<p>convert a string to <strong>camelCase</strong></p>
-</blockquote>
-<pre><code class="language-nushell">'NuShell' | str camel-case      
-</code></pre>
-<h4 id="str-capitalize"><a class="header" href="#str-capitalize"><code>str capitalize</code></a></h4>
-<pre><code class="language-nushell">'good day' | str capitalize  
-</code></pre>
-<h4 id="str-downcase"><a class="header" href="#str-downcase"><code>str downcase</code></a></h4>
-<blockquote>
-<p>convert a string to <strong>downcase</strong></p>
-</blockquote>
-<pre><code class="language-nushell">'TESTa' | str downcase
-</code></pre>
-<h4 id="str-kebab-case"><a class="header" href="#str-kebab-case"><code>str kebab-case</code></a></h4>
-<pre><code class="language-nushell">'NuShell' | str kebab-case
-</code></pre>
-<h4 id="str-pascal-caes"><a class="header" href="#str-pascal-caes"><code>str pascal-caes</code></a></h4>
-<pre><code class="language-nushell">'nu-shell' | str pascal-case
-</code></pre>
-<h4 id="str-screaming-snake-case"><a class="header" href="#str-screaming-snake-case"><code>str screaming-snake-case</code></a></h4>
-<pre><code class="language-nushell">&quot;NuShell&quot; | str screaming-snake-case
-</code></pre>
-<h4 id="str-snake-case"><a class="header" href="#str-snake-case"><code>str snake-case</code></a></h4>
-<pre><code class="language-nushell">&quot;NuShell&quot; | str snake-case
-</code></pre>
-<h4 id="str-title-case"><a class="header" href="#str-title-case"><code>str title-case</code></a></h4>
-<pre><code class="language-nushell">&quot;nu-shell&quot; | str title-case
-</code></pre>
-<h4 id="str-upcase"><a class="header" href="#str-upcase"><code>str upcase</code></a></h4>
-<pre><code class="language-nushell">'nu' | str upcase
-</code></pre>
-<h3 id="other-commands"><a class="header" href="#other-commands">Other commands</a></h3>
-<h4 id="str-collect-seperator"><a class="header" href="#str-collect-seperator"><code>str collect (seperator)</code></a></h4>
-<blockquote>
-<p>Concatenate multiple strings into a single string, with an optional separator between each</p>
-</blockquote>
-<pre><code class="language-nushell">['nu', 'shell'] | str collect
-</code></pre>
-<p>Create a string from input with a separator</p>
-<pre><code class="language-nushell">['nu', 'shell', 'is', 'great'] | str collect '-'
-</code></pre>
-<h4 id="str-contains"><a class="header" href="#str-contains"><code>str contains</code></a></h4>
-<blockquote>
-<p>Checks if string contains pattern</p>
-</blockquote>
-<pre><code class="language-shell">'my_library.rb' | str contains '.rb'
-</code></pre>
-<p>not contain</p>
-<pre><code class="language-shell">'my_library.rb' | str contains --not '.rb'
-</code></pre>
-<p>case insensitive</p>
-<pre><code class="language-shell">'my_library.rb' | str contains -i '.RB'
-</code></pre>
-<p>in a table</p>
-<pre><code class="language-shell">[[ColA ColB]; [test 100]] | str contains 'e' ColA
-</code></pre>
-<p>in a list </p>
-<pre><code class="language-shell">[one two three] | str contains o
-</code></pre>
-<h4 id="str-ends-with"><a class="header" href="#str-ends-with"><code>str ends-with</code></a></h4>
-<p>...</p>
-<h2 id="to-string"><a class="header" href="#to-string">To String</a></h2>
-<p>using <code>into string</code></p>
-<pre><code class="language-nushell">123 | into string
-</code></pre>
-<p>string interpolation</p>
-<pre><code class="language-nushell">$'(123)
-</code></pre>
-<p><code>build-string</code></p>
-<pre><code class="language-nushell">build-string (123)
-</code></pre>
-<h2 id="coloring-strings"><a class="header" href="#coloring-strings">Coloring Strings</a></h2>
-<pre><code class="language-nushell">$'(ansi purple_bold)This text is a bold purple!(ansi reset)'
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lists"><a class="header" href="#lists">Lists</a></h1>
+                        <h1 id="lists"><a class="header" href="#lists">Lists</a></h1>
 <blockquote>
 <p>A list is an ordered collection of values. You can create a list with square brackets, surrounded values separated by spaces and/or commas.</p>
 </blockquote>
@@ -430,141 +273,18 @@ $colors | empty? # true
 #  ╰───┴────────╯
 
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tables"><a class="header" href="#tables">Tables</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="pipelines"><a class="header" href="#pipelines">Pipelines</a></h1>
-<pre><code class="language-nushell">[&quot;hello&quot; &quot;world&quot;] | str collect &quot;-&quot; | str camel-case
-</code></pre>
-<h2 id="in-variable"><a class="header" href="#in-variable"><code>$in</code> variable</a></h2>
-<blockquote>
-<p>The <code>$in</code> variable will collect the pipeline into a value for you, allowing you to access the whole stream as a parameter:</p>
-</blockquote>
-<pre><code class="language-nushell">echo 1 2 3 | $in.1 * $in.2
-</code></pre>
-<h2 id="multi-line-pipelines"><a class="header" href="#multi-line-pipelines">Multi-line pipelines</a></h2>
-<blockquote>
-<p>If a pipeline is getting a bit long for one line, you can enclose it within ( and ) to create a subexpression:</p>
-</blockquote>
-<pre><code class="language-nushell">(
-    &quot;01/22/2021&quot; |
-    parse &quot;{month}/{day}/{year}&quot; |
-    get year
-)
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="commands-functions"><a class="header" href="#commands-functions">Commands (Functions)</a></h1>
-<pre><code class="language-nushell">def greet [name] {
-  echo &quot;hello &quot; $name &quot;!&quot;
-}
-
-greet 'Alice'
-</code></pre>
-<p>Valid command names: </p>
-<ul>
-<li><code>greet</code> </li>
-<li><code>get-size</code></li>
-<li><code>mycommand123</code></li>
-<li><code>mycommand</code> </li>
-<li><code>😊</code></li>
-<li><code>123</code></li>
-</ul>
-<h2 id="paramters"><a class="header" href="#paramters">Paramters</a></h2>
-<pre><code class="language-nushell">def greet [name: string] {
-  echo &quot;hello &quot; $name &quot;!&quot;
-}
-
-greet 'Alice'
-</code></pre>
-<h2 id="optional-types"><a class="header" href="#optional-types">Optional Types</a></h2>
-<pre><code class="language-nushell">def add [a: int, b: int] {
-  echo ($a + $b)
-}
-
-add 1 2 
-
-# 3
-
-add 1 '2'
-
-#   × Parse mismatch during operation.
-#   ╭─[entry #3:1:1]
-# 1 │ add 1 '2'
-#   ·       ─┬─
-#   ·        ╰── expected int
-#   ╰────
-
-</code></pre>
-<p>Accepted types (as of version 0.59.0):</p>
-<ul>
-<li>any</li>
-<li>block</li>
-<li>cell-path</li>
-<li>duration</li>
-<li>path</li>
-<li>expr</li>
-<li>filesize</li>
-<li>glob</li>
-<li>int</li>
-<li>math</li>
-<li>number</li>
-<li>operator</li>
-<li>range</li>
-<li>cond</li>
-<li>bool</li>
-<li>signature</li>
-<li>string</li>
-<li>variable</li>
-</ul>
-<h2 id="default-values"><a class="header" href="#default-values">Default Values</a></h2>
-<pre><code class="language-nushell">def greet [name = &quot;nushell&quot;] {
-  echo &quot;hello &quot; $name | str collect
-}
-
-greet 
-</code></pre>
-<h2 id="optional-positional-parameters"><a class="header" href="#optional-positional-parameters">Optional positional parameters</a></h2>
-<blockquote>
-<p>By default, positional parameters are required</p>
-</blockquote>
-<pre><code class="language-nushell">def greet [name: string] {
-  echo &quot;hello &quot; $name | str collect
-}
-
-greet 
-
-#  × Missing required positional argument.
-#   ╭─[entry #2:1:1]
-# 1 │ greet
-#   ·      ▲
-#   ·      ╰── missing name
-#   ╰────
-#  help: Usage: greet &lt;name&gt;
-
-</code></pre>
-<blockquote>
-<p>We can instead mark a positional parameter as optional by putting a <code>?</code> after its name</p>
-</blockquote>
-<pre><code class="language-nushell">def greet [name?: string] {
-  echo &quot;hello &quot; $name | str collect
-}
-
-greet
-</code></pre>
-<blockquote>
-<p>When an optional parameter is not passed, its value in the command body is equal to <code>null</code> and <code>$nothing</code>.</p>
-</blockquote>
-<h2 id="sub-commands"><a class="header" href="#sub-commands">Sub-Commands</a></h2>
-<blockquote>
-<p>You can also define subcommands to commands using a space. For example, if we wanted to add a new subcommand to <code>str</code>, we can create it by naming our subcommand to start with <code>str </code></p>
-</blockquote>
-<pre><code class="language-shell">def &quot;str mycommand&quot; [] {
-  echo hello
-}
-</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="strings.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
+                            <a rel="next" href="tables.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -572,7 +292,13 @@ greet
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="strings.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
+                    <a rel="next" href="tables.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -613,11 +339,6 @@ greet
 
         <!-- Custom JS scripts -->
 
-        <script type="text/javascript">
-        window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
-        });
-        </script>
 
     </body>
 </html>
