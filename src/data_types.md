@@ -16,6 +16,6 @@
 ## Structured Data Types
 
 - Records
-- Lists
-- Tables
+- [Lists](./lists.md)
+- [Tables](./tables.md)
 
